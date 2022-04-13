@@ -29,10 +29,12 @@ private:
 
 private:
   std::vector<std::thread> thread_pool_;
-  Scheduler *scheduler;
+  std::unique_ptr<Scheduler> scheduler_;
+  unsigned int time_slice_length_ms_;
 
 public:
   bool submit_task(Task &task);
+  void run_one_time_slice();
 };
 
 } // namespace DiorDo
