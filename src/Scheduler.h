@@ -11,7 +11,10 @@ namespace DiorDo {
 
 class Scheduler {
 public:
+  Scheduler() = default;
   virtual Task pop_task() = 0;
+  virtual bool submit_task(const Task &) = 0;
+  virtual bool is_empty() = 0;
 };
 
 } // namespace DiorDo
