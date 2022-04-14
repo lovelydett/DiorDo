@@ -7,8 +7,8 @@
 
 #define _GNU_SOURCE /* See feature_test_macros(7) */
 
+#include <chrono>
 #include <memory>
-#include <queue>
 #include <sched.h> // For assign thread to CPU core
 #include <thread>
 #include <vector>
@@ -24,17 +24,21 @@ public:
   Dispatcher(Dispatcher const &) = delete;
   Dispatcher &operator=(Dispatcher const &) = delete;
 
-private:
-  bool InitConfig();
+public:
+  bool submit_task(Task &task);
 
 private:
   std::vector<std::thread> thread_pool_;
   std::unique_ptr<Scheduler> scheduler_;
+  unsigned int thread_pool_capacity_;
   unsigned int time_slice_length_ms_;
 
-public:
-  bool submit_task(Task &task);
-  void run_one_time_slice();
+private:
+  bool InitConfig();
+  bool InitThreadPool();
+
+  // This is what the thread actually runs.
+  void thread_callback();
 };
 
 } // namespace DiorDo

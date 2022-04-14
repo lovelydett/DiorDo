@@ -11,12 +11,12 @@
 
 namespace DiorDo {
 
-class FcfsScheduler : public Scheduler {
+class FcfsScheduler : protected Scheduler {
 public:
   FcfsScheduler() = default;
 
 public:
-  Task pop_task() override;
+  std::optional<Task> pop_task() override;
   bool submit_task(const Task &) override;
   bool is_empty() override;
 
