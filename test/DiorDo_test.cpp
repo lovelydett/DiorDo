@@ -4,13 +4,20 @@
 
 #include "../src/Dispatcher.h"
 
+#include "../logging/logging.h"
+
+#include <cstdio>
 #include <functional>
 
 // Simple addition
-void test_func_1(int *pa, int *pb, int *pc) { *pc = *pa + *pb; }
+void test_func_1(int *pa, int *pb, int *pc) {
+  printf("test_func_1\n");
+  *pc = *pa + *pb;
+}
 
 // Simple swap
 void test_func_2(int *pa, int *pb) {
+  printf("test_func_2\n");
   *pa += *pb;
   *pb = *pa - *pb;
   *pa -= *pb;
@@ -18,12 +25,22 @@ void test_func_2(int *pa, int *pb) {
 
 int main() {
   int a = 1, b = 2, c, d = 1, e = 2;
-  DiorDo::Task task1(std::bind(test_func_1, &a, &b, &c));
-  DiorDo::Task task2(std::bind(test_func_2, &d, &e));
+
+  LOG_INFO("Initializing tasks");
+
+  DiorDo::Task task1(std::bind(test_func_1, &a, &b, &c), 0);
+  DiorDo::Task task2(std::bind(test_func_2, &d, &e), 0);
+
+  LOG_INFO("Tasks initialized");
 
   DiorDo::Dispatcher dispatcher;
+
+  LOG_INFO("Submitting task 1");
   dispatcher.submit_task(task1);
+  LOG_INFO("Submitting task 2");
   dispatcher.submit_task(task2);
+
+  dispatcher.join_threads();
 
   return 0;
 }

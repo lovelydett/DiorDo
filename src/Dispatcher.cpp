@@ -6,32 +6,48 @@
 
 #include "FCFS/FcfsScheduler.h"
 
+#include "../logging/logging.h"
+
 namespace DiorDo {
 
 Dispatcher::Dispatcher() {
+  LOG_INFO("Enter %s", __FUNCTION__);
   // Todo(yuting): load config from file
   InitConfig();
+  InitThreadPool();
 }
 bool Dispatcher::InitConfig() {
+  LOG_INFO("Enter %s", __FUNCTION__);
   // Todo(yuting): load from config file or from scheduler factory and capacity.
-  scheduler_ = std::make_unique<FcfsScheduler>();
-  time_slice_length_ms_ = 10;
-  thread_pool_capacity_ = 100;
+  scheduler_.reset((Scheduler *)new FcfsScheduler);
+  time_slice_length_ms_ = 100;
+  thread_pool_capacity_ = 10;
+  LOG_INFO("Leave %s", __FUNCTION__);
   return true;
 }
 
 bool Dispatcher::InitThreadPool() {
+  LOG_INFO("Enter %s", __FUNCTION__);
   thread_pool_.reserve(thread_pool_capacity_);
   for (int i = 0; i < thread_pool_capacity_; ++i) {
     thread_pool_.emplace_back(std::thread(&Dispatcher::thread_callback, this));
   }
+  LOG_INFO("Leave %s", __FUNCTION__);
   return true;
 }
 
 bool Dispatcher::submit_task(Task &task) {
   return scheduler_->submit_task(task);
 }
+
+void Dispatcher::join_threads() {
+  for (auto &thread : thread_pool_) {
+    thread.join();
+  }
+}
+
 void Dispatcher::thread_callback() {
+  LOG_INFO("Thread %d starts", std::this_thread::get_id());
   auto last = std::chrono::system_clock::now();
   while (true) {
     // First get a task
@@ -39,6 +55,7 @@ void Dispatcher::thread_callback() {
     if (!task) {
       continue;
     }
+    LOG_INFO("Thread %d get a task", std::this_thread::get_id());
     // Then do this task for a time slice. Todo(yuting): sync time slice
     last = std::chrono::system_clock::now();
     while (std::chrono::system_clock::now() - last <=

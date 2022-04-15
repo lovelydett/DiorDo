@@ -26,10 +26,11 @@ public:
 
 public:
   bool submit_task(Task &task);
+  void join_threads();
 
 private:
   std::vector<std::thread> thread_pool_;
-  std::unique_ptr<Scheduler> scheduler_;
+  std::shared_ptr<Scheduler> scheduler_;
   unsigned int thread_pool_capacity_;
   unsigned int time_slice_length_ms_;
 

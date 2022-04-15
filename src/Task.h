@@ -19,10 +19,7 @@ public:
   }
 
 public:
-  std::function<void()> func() const { return func_; }
-  std::chrono::duration<int, std::ratio<1, 1000>> time_since_summit() {
-    return std::chrono::system_clock::now() - time_submit_;
-  }
+  [[nodiscard]] std::function<void()> func() const { return func_; }
   bool is_finished() { return is_finished_; }
 
 private:
@@ -31,7 +28,6 @@ private:
   std::function<void()> func_;
   // The smaller the prior
   unsigned int priority_;
-  std::chrono::system_clock::time_point time_submit_;
   bool is_finished_;
 };
 

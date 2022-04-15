@@ -7,16 +7,16 @@
 namespace DiorDo {
 
 std::optional<Task> FcfsScheduler::pop_task() {
-  std::lock_guard<mutex_task_queue_> lock;
+  std::lock_guard<std::mutex> lock(mutex_task_queue_);
   if (task_queue_.empty()) {
     return std::nullopt;
   }
-  auto task = task_queue_.top();
+  auto task = task_queue_.front();
   task_queue_.pop();
   return task;
 }
-bool FcfsScheduler::submit_task(const Task &) {
-  std::lock_guard<mutex_task_queue_> lock;
+bool FcfsScheduler::submit_task(const Task &task) {
+  std::lock_guard<std::mutex> lock(mutex_task_queue_);
   task_queue_.emplace(task);
   return true;
 }
