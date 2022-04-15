@@ -2,8 +2,8 @@
 // Created by Yuting Xie
 // 2022/4/13
 
-#ifndef DIORDO_SCHEDULER_H
-#define DIORDO_SCHEDULER_H
+#ifndef DIORDO_SCHEDULERBASE_H
+#define DIORDO_SCHEDULERBASE_H
 
 #include "Task.h"
 
@@ -12,9 +12,10 @@
 
 namespace DiorDo {
 
-class Scheduler {
+class SchedulerBase {
 public:
-  Scheduler() = default;
+  SchedulerBase() = default;
+  virtual bool is_preemptive() = 0;
   virtual std::optional<Task> pop_task() = 0;
   virtual bool submit_task(const Task &) = 0;
   virtual bool is_empty() = 0;
@@ -25,4 +26,4 @@ protected:
 
 } // namespace DiorDo
 
-#endif // DIORDO_SCHEDULER_H
+#endif // DIORDO_SCHEDULERBASE_H

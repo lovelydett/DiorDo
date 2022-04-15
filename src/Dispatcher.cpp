@@ -19,9 +19,10 @@ Dispatcher::Dispatcher() {
 bool Dispatcher::InitConfig() {
   LOG_INFO("Enter %s", __FUNCTION__);
   // Todo(yuting): load from config file or from scheduler factory and capacity.
-  scheduler_.reset((Scheduler *)new FcfsScheduler);
+  scheduler_.reset((SchedulerBase *)new FcfsScheduler);
   time_slice_length_ms_ = 100;
   thread_pool_capacity_ = 10;
+  is_preemptive = scheduler_->is_preemptive();
   LOG_INFO("Leave %s", __FUNCTION__);
   return true;
 }
@@ -59,8 +60,9 @@ void Dispatcher::thread_callback() {
              std::this_thread::get_id());
     // Then do this task for a time slice. Todo(yuting): sync time slice
     last = std::chrono::system_clock::now();
-    while (std::chrono::system_clock::now() - last <=
-           std::chrono::milliseconds(time_slice_length_ms_)) {
+    while (!is_preemptive ||
+           std::chrono::system_clock::now() - last <=
+               std::chrono::milliseconds(time_slice_length_ms_)) {
       task->func()();
     }
     LOG_INFO("End of time slice for thread %d", std::this_thread::get_id());

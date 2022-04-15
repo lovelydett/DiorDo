@@ -13,7 +13,7 @@
 #include <thread>
 #include <vector>
 
-#include "Scheduler.h"
+#include "SchedulerBase.h"
 #include "Task.h"
 
 namespace DiorDo {
@@ -30,9 +30,12 @@ public:
 
 private:
   std::vector<std::thread> thread_pool_;
-  std::shared_ptr<Scheduler> scheduler_;
+  std::shared_ptr<SchedulerBase> scheduler_;
   unsigned int thread_pool_capacity_;
   unsigned int time_slice_length_ms_;
+
+  // IIF this is true would time slice be valid.
+  bool is_preemptive;
 
 private:
   bool InitConfig();

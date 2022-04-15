@@ -12,17 +12,17 @@ add_executable(test_DiorDo
         src/FCFS/FcfsScheduler.h
         src/Dispatcher.cpp
         src/Dispatcher.h
-        src/Scheduler.h
+        src/SchedulerBase.h
         src/Task.h
         logging/logging.h
-        test/test_DiorDo.cpp)
+        test/test_DiorDo.cpp src/SchedulerNonPreemptive.h)
 
 add_executable(test_Task
         src/FCFS/FcfsScheduler.cpp
         src/FCFS/FcfsScheduler.h
         src/Dispatcher.cpp
         src/Dispatcher.h
-        src/Scheduler.h
+        src/SchedulerBase.h
         src/Task.h
         logging/logging.h
         test/test_Task.cpp)

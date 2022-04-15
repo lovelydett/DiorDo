@@ -7,11 +7,11 @@
 
 #include "queue"
 
-#include "../Scheduler.h"
+#include "SchedulerNonPreemptive.h"
 
 namespace DiorDo {
 
-class FcfsScheduler : protected Scheduler {
+class FcfsScheduler : public SchedulerNonPreemptive {
 public:
   FcfsScheduler() = default;
 
