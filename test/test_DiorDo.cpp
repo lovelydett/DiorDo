@@ -24,8 +24,8 @@ int main() {
 
   LOG_INFO("Initializing tasks");
 
-  DiorDo::Task task1(std::bind(test_func_1, &a, &b, &c), 0);
-  DiorDo::Task task2(std::bind(test_func_2, &d, &e), 0);
+  DiorDo::Task task1(std::bind(test_func_1, &a, &b, &c), 100, 200, 0);
+  DiorDo::Task task2(std::bind(test_func_2, &d, &e), 1000, 1500, 0);
 
   LOG_INFO("Tasks initialized");
 

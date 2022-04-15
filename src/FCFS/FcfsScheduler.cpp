@@ -16,6 +16,9 @@ std::optional<Task> FcfsScheduler::pop_task() {
   return task;
 }
 bool FcfsScheduler::submit_task(const Task &task) {
+  if (task.is_finished()) {
+    return true;
+  }
   std::lock_guard<std::mutex> lock(mutex_task_queue_);
   task_queue_.emplace(task);
   return true;

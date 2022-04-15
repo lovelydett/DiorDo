@@ -17,7 +17,7 @@ public:
 
 public:
   std::optional<Task> pop_task() override;
-  bool submit_task(const Task &) override;
+  bool submit_task(const Task &task) override;
   bool is_empty() override;
 
 private:

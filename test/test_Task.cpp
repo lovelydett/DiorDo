@@ -16,7 +16,7 @@ int main() {
                            *pc = *pa + *pb;
                          },
                          &a, &b, &c),
-                     0);
+                     100, 200, 0);
 
   DiorDo::Task task2(std::bind(
                          [=](int *pa, int *pb) {
@@ -26,7 +26,7 @@ int main() {
                            *pa -= *pb;
                          },
                          &d, &e),
-                     0);
+                     1000, 1500, 0);
 
   task1.func()();
   task2.func()();
