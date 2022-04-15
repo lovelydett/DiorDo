@@ -24,7 +24,7 @@ public:
     return std::chrono::steady_clock::now() > submit_timepoint_ + deadline_ms_;
   }
   [[nodiscard]] bool is_finished() const {
-    return remaining_time_ms_ < std::chrono::milliseconds(0);
+    return remaining_time_ms_ <= std::chrono::milliseconds(0);
   }
   void set_submit_time() {
     // Call this func when officially take it into scheduler's account
