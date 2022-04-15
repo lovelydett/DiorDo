@@ -10,14 +10,10 @@
 #include <functional>
 
 // Simple addition
-void test_func_1(int *pa, int *pb, int *pc) {
-  printf("test_func_1\n");
-  *pc = *pa + *pb;
-}
+void test_func_1(int *pa, int *pb, int *pc) { *pc = *pa + *pb; }
 
 // Simple swap
 void test_func_2(int *pa, int *pb) {
-  printf("test_func_2\n");
   *pa += *pb;
   *pb = *pa - *pb;
   *pa -= *pb;

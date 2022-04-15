@@ -5,8 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(src)
 include_directories(src/FCFS)
+include_directories(logging)
 
-add_executable(DiorDo
+add_executable(test_DiorDo
         src/FCFS/FcfsScheduler.cpp
         src/FCFS/FcfsScheduler.h
         src/Dispatcher.cpp
@@ -14,6 +15,17 @@ add_executable(DiorDo
         src/Scheduler.h
         src/Task.h
         logging/logging.h
-        test/DiorDo_test.cpp)
+        test/test_DiorDo.cpp)
 
-target_link_libraries(DiorDo pthread)
+add_executable(test_Task
+        src/FCFS/FcfsScheduler.cpp
+        src/FCFS/FcfsScheduler.h
+        src/Dispatcher.cpp
+        src/Dispatcher.h
+        src/Scheduler.h
+        src/Task.h
+        logging/logging.h
+        test/test_Task.cpp)
+
+target_link_libraries(test_DiorDo pthread)
+target_link_libraries(test_Task pthread)

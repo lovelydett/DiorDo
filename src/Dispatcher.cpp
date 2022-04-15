@@ -55,13 +55,15 @@ void Dispatcher::thread_callback() {
     if (!task) {
       continue;
     }
-    LOG_INFO("Thread %d get a task", std::this_thread::get_id());
+    LOG_INFO("Thread %d assigned a task and starts its time slice",
+             std::this_thread::get_id());
     // Then do this task for a time slice. Todo(yuting): sync time slice
     last = std::chrono::system_clock::now();
     while (std::chrono::system_clock::now() - last <=
            std::chrono::milliseconds(time_slice_length_ms_)) {
-      task->func();
+      task->func()();
     }
+    LOG_INFO("End of time slice for thread %d", std::this_thread::get_id());
   }
 }
 

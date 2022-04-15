@@ -1,6 +1,8 @@
-//
+// Logging
 // Created by Yuting Xie
 // 2022/4/15
+
+// Todo(yuting): use GLOG
 
 #ifndef DIORDO_LOGGING_H
 #define DIORDO_LOGGING_H
